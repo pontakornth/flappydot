@@ -9,15 +9,24 @@ UPDATE_DELAY = 33
 GRAVITY = 2.5
 
 STARTING_VELOCITY = -30
+JUMPING_VELOCITY = -20
 
 
 class Dot(Sprite):
     def init_element(self):
         self.vy = STARTING_VELOCITY
+        self.is_started = False
+
+    def start(self):
+        self.is_started = True
 
     def update(self):
-        self.y += self.vy
-        self.vy += GRAVITY
+        if self.is_started:
+            self.y += self.vy
+            self.vy += GRAVITY
+
+    def jump(self):
+        self.vy = JUMPING_VELOCITY
 
 
 class FlappyGame(GameApp):
@@ -27,6 +36,7 @@ class FlappyGame(GameApp):
         self.elements.append(self.dot)
 
     def init_game(self):
+        self.is_started = False
         self.create_sprites()
 
     def pre_update(self):
