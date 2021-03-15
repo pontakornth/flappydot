@@ -52,12 +52,23 @@ class FlappyGame(GameApp):
         if event.char == " ":
             if not self.is_started:
                 self.is_started = True
+                self.pillar_pair.start()
                 self.dot.start()
             else:
                 self.dot.jump()
 
 class PillarPair(Sprite):
-    pass
+    def init_element(self):
+        self.is_started = False
+    
+    def update(self):
+        if self.is_started:
+            self.x -= 10
+            if self.x <= -100:
+                self.x = CANVAS_WIDTH
+    
+    def start(self):
+        self.is_started = True
 
 
 if __name__ == "__main__":
