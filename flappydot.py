@@ -16,6 +16,7 @@ class Dot(Sprite):
     def init_element(self):
         self.vy = STARTING_VELOCITY
         self.is_started = False
+        self.is_gameover = False
 
     def start(self):
         self.is_started = True
@@ -37,20 +38,28 @@ class FlappyGame(GameApp):
 
     def init_game(self):
         self.is_started = False
+        self.is_gameover = False
         self.create_sprites()
 
     def pre_update(self):
         pass
 
     def post_update(self):
-        pass
+        # Check for lose condition
+        # 1. The dot falls of the screen.
+        # 2. The dot hits the pillar
+        # TODO: Check for the dot hits the pillar
+        if self.dot.y >= CANVAS_HEIGHT and not self.is_gameover:
+            self.is_gameover = True
+            self.dot.is_gameover = True
+            print("GAME OVER")
 
     def on_key_pressed(self, event):
         if event.char == " ":
-            if not self.is_started:
+            if not (self.is_started or self.is_gameover):
                 self.is_started = True
                 self.dot.start()
-            else:
+            elif not self.is_gameover:
                 self.dot.jump()
 
 
