@@ -42,6 +42,9 @@ class FlappyGame(GameApp):
 
         self.elements.append(self.dot)
 
+        self.pillar_pair = PillarPair(self, 'images/pillar-pair.png', CANVAS_WIDTH, CANVAS_HEIGHT // 2)
+        self.elements.append(self.pillar_pair)
+
     def init_game(self):
         self.is_started = False
         self.is_gameover = False
@@ -65,9 +68,23 @@ class FlappyGame(GameApp):
         if event.char == " ":
             if not (self.is_started or self.is_gameover):
                 self.is_started = True
+                self.pillar_pair.start()
                 self.dot.start()
             elif not self.is_gameover:
                 self.dot.jump()
+
+class PillarPair(Sprite):
+    def init_element(self):
+        self.is_started = False
+    
+    def update(self):
+        if self.is_started:
+            self.x -= 10
+            if self.x <= -100:
+                self.x = CANVAS_WIDTH
+    
+    def start(self):
+        self.is_started = True
 
 
 if __name__ == "__main__":
