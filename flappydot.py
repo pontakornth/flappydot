@@ -29,6 +29,9 @@ class Dot(Sprite):
     def jump(self):
         self.vy = JUMPING_VELOCITY
 
+    def is_out_of_screen(self):
+        return self.y >= CANVAS_HEIGHT
+
 
 class FlappyGame(GameApp):
     def create_sprites(self):
@@ -49,7 +52,7 @@ class FlappyGame(GameApp):
         # 1. The dot falls of the screen.
         # 2. The dot hits the pillar
         # TODO: Check for the dot hits the pillar
-        if self.dot.y >= CANVAS_HEIGHT and not self.is_gameover:
+        if self.dot.is_out_of_screen() and not self.is_gameover:
             self.is_gameover = True
             self.dot.is_gameover = True
             print("GAME OVER")
