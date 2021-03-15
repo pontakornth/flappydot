@@ -32,6 +32,9 @@ class Dot(Sprite):
     def is_out_of_screen(self):
         return self.y >= CANVAS_HEIGHT
 
+    def game_over(self):
+        self.is_gameover = True
+
 
 class FlappyGame(GameApp):
     def create_sprites(self):
@@ -54,7 +57,8 @@ class FlappyGame(GameApp):
         # TODO: Check for the dot hits the pillar
         if self.dot.is_out_of_screen() and not self.is_gameover:
             self.is_gameover = True
-            self.dot.is_gameover = True
+            self.dot.game_over()
+            # TODO: Make the message appear in the screen.
             print("GAME OVER")
 
     def on_key_pressed(self, event):
