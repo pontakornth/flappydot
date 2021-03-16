@@ -35,6 +35,11 @@ class Dot(Sprite):
     def game_over(self):
         self.is_gameover = True
 
+    def is_hit(self):
+        # if self.y + 40 >= 350 or self.y - 40 <= 150:
+        #     if 360 <= FlappyGame. <= 440:
+        #         return True
+        pass
 
 class FlappyGame(GameApp):
     def create_sprites(self):
@@ -49,6 +54,7 @@ class FlappyGame(GameApp):
         self.is_started = False
         self.is_gameover = False
         self.create_sprites()
+        self.score = 0
 
     def pre_update(self):
         pass
@@ -58,11 +64,17 @@ class FlappyGame(GameApp):
         # 1. The dot falls of the screen.
         # 2. The dot hits the pillar
         # TODO: Check for the dot hits the pillar
-        if self.dot.is_out_of_screen() and not self.is_gameover:
+        if self.dot.is_out_of_screen() and not self.is_gameover or self.dot.is_hit() and not self.is_gameover:
             self.is_gameover = True
             self.dot.game_over()
             # TODO: Make the message appear in the screen.
+            Text(app, "Game Over!!!", 400, 250)
             print("GAME OVER")
+        else:
+
+            self.score += 1
+        Text(app, f"{self.score}", 50, 50)
+        print("Score + 1")
 
     def on_key_pressed(self, event):
         if event.char == " ":
@@ -72,6 +84,7 @@ class FlappyGame(GameApp):
                 self.dot.start()
             elif not self.is_gameover:
                 self.dot.jump()
+
 
 class PillarPair(Sprite):
     def init_element(self):
@@ -89,7 +102,7 @@ class PillarPair(Sprite):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("Monkey Banana Game")
+    root.title("Flappy Dot Game")
 
     # do not allow window resizing
     root.resizable(False, False)
