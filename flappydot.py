@@ -55,6 +55,7 @@ class FlappyGame(GameApp):
         self.is_gameover = False
         self.create_sprites()
         self.score = 0
+        self.score_text = Text(self, f"{self.score}", 50, 50)
 
     def pre_update(self):
         pass
@@ -71,10 +72,9 @@ class FlappyGame(GameApp):
             Text(app, "Game Over!!!", 400, 250)
             print("GAME OVER")
         else:
-
             self.score += 1
-        Text(app, f"{self.score}", 50, 50)
-        print("Score + 1")
+            self.score_text.set_text(f"{self.score}")
+            print("Score + 1")
 
     def on_key_pressed(self, event):
         if event.char == " ":
