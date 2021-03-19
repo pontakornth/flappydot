@@ -36,10 +36,12 @@ class Dot(Sprite):
         self.is_gameover = True
 
     def is_hit(self):
-        # if self.y + 40 >= 350 or self.y - 40 <= 150:
-        #     if 360 <= FlappyGame. <= 440:
-        #         return True
-        pass
+        if (self.y > app.pillar_pair.y + 60 or self.y < app.pillar_pair.y - 60) and self.x == app.pillar_pair.x:
+            return True
+        elif self.x == app.pillar_pair.x:
+            app.score.set_text(int(app.score.text) + 1)
+            print("Score + 1")
+
 
 class FlappyGame(GameApp):
     def create_sprites(self):
@@ -54,7 +56,7 @@ class FlappyGame(GameApp):
         self.is_started = False
         self.is_gameover = False
         self.create_sprites()
-        self.score = 0
+        self.score = Text(self, 0, 50, 50)
 
     def pre_update(self):
         pass
@@ -70,11 +72,6 @@ class FlappyGame(GameApp):
             # TODO: Make the message appear in the screen.
             Text(app, "Game Over!!!", 400, 250)
             print("GAME OVER")
-        else:
-
-            self.score += 1
-        Text(app, f"{self.score}", 50, 50)
-        print("Score + 1")
 
     def on_key_pressed(self, event):
         if event.char == " ":
@@ -89,13 +86,13 @@ class FlappyGame(GameApp):
 class PillarPair(Sprite):
     def init_element(self):
         self.is_started = False
-    
+
     def update(self):
         if self.is_started:
             self.x -= 10
             if self.x <= -100:
                 self.x = CANVAS_WIDTH
-    
+
     def start(self):
         self.is_started = True
 
@@ -109,3 +106,4 @@ if __name__ == "__main__":
     app = FlappyGame(root, CANVAS_WIDTH, CANVAS_HEIGHT, UPDATE_DELAY)
     app.start()
     root.mainloop()
+
