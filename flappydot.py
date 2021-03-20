@@ -65,7 +65,6 @@ class FlappyGame(GameApp):
         # Check for lose condition
         # 1. The dot falls of the screen.
         # 2. The dot hits the pillar
-        # TODO: Check for the dot hits the pillar
         if self.dot.is_out_of_screen() and not self.is_gameover or self.dot.is_hit() and not self.is_gameover:
             self.is_gameover = True
             self.dot.game_over()
