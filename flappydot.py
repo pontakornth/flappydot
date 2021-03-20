@@ -38,7 +38,7 @@ class Dot(Sprite):
     def is_hit(self):
         if (self.y > app.pillar_pair.y + 60 or self.y < app.pillar_pair.y - 60) and self.x == app.pillar_pair.x:
             return True
-        elif self.x == app.pillar_pair.x:
+        elif self.x == app.pillar_pair.x and not self.is_gameover:
             app.score.set_text(int(app.score.text) + 1)
             print("Score + 1")
 
@@ -65,12 +65,12 @@ class FlappyGame(GameApp):
         # Check for lose condition
         # 1. The dot falls of the screen.
         # 2. The dot hits the pillar
-        if self.dot.is_out_of_screen() and not self.is_gameover or self.dot.is_hit() and not self.is_gameover:
+        if (self.dot.is_out_of_screen() or self.dot.is_hit()) and not self.is_gameover:
             self.is_gameover = True
+            self.pillar_pair.game_over()
             self.dot.game_over()
-            # TODO: Make the message appear in the screen.
             Text(app, "Game Over!!!", 400, 250)
-            print("GAME OVER")
+            print("Game over")
 
     def on_key_pressed(self, event):
         if event.char == " ":
@@ -87,13 +87,17 @@ class PillarPair(Sprite):
         self.is_started = False
 
     def update(self):
-        if self.is_started:
+        if self.is_started and not self.is_gameover:
             self.x -= 10
             if self.x <= -100:
                 self.x = CANVAS_WIDTH
 
     def start(self):
         self.is_started = True
+        self.is_gameover = False
+
+    def game_over(self):
+        self.is_gameover = True
 
 
 if __name__ == "__main__":
